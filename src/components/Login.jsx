@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Shield, User, Lock } from 'lucide-react';
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://shpdtraining.shakerpd.com/api';
+
 const Login = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({
     username: '',
@@ -20,11 +22,13 @@ const Login = ({ onLogin }) => {
     setError('');
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch(`${API_BASE}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        // if your backend sets HttpOnly cookies for auth, keep this line:
+        credentials: 'include',
         body: JSON.stringify(credentials),
       });
 
@@ -130,4 +134,3 @@ const Login = ({ onLogin }) => {
 };
 
 export default Login;
-
